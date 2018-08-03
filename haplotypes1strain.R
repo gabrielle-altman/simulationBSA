@@ -15,6 +15,13 @@ tab=read.table("TDY1993.R.vcf", as.is=T, header=T)
 
 ##########################################################################################################################################
 
+#' @param VCF 
+#' @param i integer. Samples in a vcf file start in the 10th column. Tabler takes the information from the (9+i)th column from the vcf.
+#' @param minDepth Numeric. The minimal depth required at each position to call a different allele. Default=5.
+#' @param cutoff Numeric. Minimum ratio of reads (as a number between 0 and 1) that supports either allele required to call an allele. Default=0.75. 
+#' 
+#' @return a table
+
 tabler=function(i=1, minDepth=5, cutoff=0.75){
   c=(str_split_fixed(tab[,9+i],":",n=8)) #This splits the FORMAT itens from the vcf into columns.
   colnames(c)=c("Genotype_GT","Depth_DP","AD","Reference_RO","QR","Alternative_AO","QA","GL")
@@ -47,9 +54,10 @@ tabler=function(i=1, minDepth=5, cutoff=0.75){
     
   }
   
-  data2$Ref_percentage=data2$Reference/data2$Depth
-  data2$Alt1_percentage=data2$Alternative1/data2$Depth
-  data2$Alt2_percentage=data2$Alternative2/data2$Depth
+  data2$realDepth=data2$Reference+data2$Alternative1+data2$Alternative2
+  data2$Ref_percentage=data2$Reference/data2$realDepth
+  data2$Alt1_percentage=data2$Alternative1/data2$realDepth
+  data2$Alt2_percentage=data2$Alternative2/data2$realDepth
   rm(c)
   rm(d)
   return(data2)
