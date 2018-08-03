@@ -1,5 +1,8 @@
-sequence <- function(coverage, SNPindex, dfstrains, strainweight) {
-  sequenced <- data.frame(CHR = SNPindex$CHR , POS = SNPindex$POS, depth1 = NA, ref1 = NA, alt1 = NA,depth2 = NA, ref2 = NA, alt2 = NA )
+#coverage: coverage
+#dfstrains: data frame with SNPs for all strains
+#strainweight: Data frame with weights of each strain
+sequence <- function(coverage,  dfstrains, strainweight) {
+  sequenced <- data.frame(CHR = dfstrains$CHR , POS = dfstrains$POS, depth1 = NA, ref1 = NA, alt1 = NA,depth2 = NA, ref2 = NA, alt2 = NA )
   coverage1 = rpois(n = 1, lambda = coverage)
   coverage2 = rpois(n = 1, lambda = coverage)
   for (i in 1:nrow(dfstrains)) {
@@ -57,22 +60,8 @@ sequence <- function(coverage, SNPindex, dfstrains, strainweight) {
 ############################END OF FUNCTION##############################
 #############################START OF CODE###############################
 # 
-# #35 is the depth
-# #SNP value is first probability
-# table(rmultinom(35, 1, c(0.54, 0.46) )[1,])
-# #number of zeros
-# table(rmultinom(35, 1, c(0.54, 0.46) )[1,])[[1]]
-# #number of ones
-# table(rmultinom(35, 1, c(0.54, 0.46) )[1,])[[2]]
-# 
 
-#rmultinom(1, 35, c(0.54, 0.36, 0.1))
-
-# 
-# a<- as.numeric(dfstrains2[3, 3:ncol(dfstrains2)])
-# table(sample(a, size = depth,replace = TRUE , prob = strainweights2[1,]))
-
-sequenced = sequence(75, SNPindex2, dfstrains2, strainweights2)
+sequenced = sequence(75,  dfstrains2, strainweights2)
 
 
 

@@ -1,3 +1,8 @@
+#This file is used to smooth the data and plot them. Code is modified version of the QTLSeqR package
+
+
+
+
 # Function to set comparisons between two samples and output the table in a way that the QTLseq package can use.
 
 #' Uses two element of a list to create a table that can be used by the package QTLseq.
